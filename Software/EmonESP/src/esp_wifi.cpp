@@ -27,6 +27,7 @@
 */
 #include "emonesp.h"
 #include "esp_wifi.h"
+#include "esp_task_wdt.h"
 #include "config.h"
 
 /*
@@ -462,7 +463,7 @@ void wifi_loop()
         wifi_restart();
       }
 #ifdef ENABLE_WDT
-      feedLoopWDT();
+       esp_task_wdt_reset();
 #endif
     }
   }

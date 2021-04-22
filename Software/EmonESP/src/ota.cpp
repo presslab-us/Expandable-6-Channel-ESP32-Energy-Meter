@@ -30,6 +30,7 @@
 #include "ota.h"
 #include "web_server.h"
 #include "esp_wifi.h"
+#include "esp_task_wdt.h"
 #include "http.h"
 
 // -------------------------------------------------------------------
@@ -85,7 +86,7 @@ void ota_setup()
 void ota_loop()
 {
 #ifdef ENABLE_WDT
-  feedLoopWDT();
+  esp_task_wdt_reset();
 #endif
   ArduinoOTA.handle();
 }
@@ -100,7 +101,7 @@ t_httpUpdate_return ota_http_update()
 {
   WiFiClient client;
   #ifdef ENABLE_WDT
-    feedLoopWDT();
+    esp_task_wdt_reset();
   #endif
   SPIFFS.end(); // unmount filesystem
   t_httpUpdate_return ret = httpUpdate.update(client,"http://" + String(u_host) + String(u_url) + "?tag=" + currentfirmware);

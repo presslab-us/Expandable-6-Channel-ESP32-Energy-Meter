@@ -30,7 +30,7 @@
 #define _EMONESP_CONFIG_H
 
 #include "energy_meter.h"
-#include <Arduino.h>
+//#include <Arduino.h>
 #include <EEPROM.h>                   // Save config settings
 #include <ESPAsyncWebServer.h>
 

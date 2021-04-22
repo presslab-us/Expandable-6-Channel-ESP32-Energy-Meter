@@ -44,7 +44,7 @@ static char url[MAX_DATA_LEN+100];
 void emoncms_publish(const char * data)
 {
   // We now create a URL for server data upload
-  sprintf(url, "%s%s{%s,psent:%lu,psuccess:%lu,freeram:%lu,rssi:%d}&node=%s&apikey=%s",
+  sprintf(url, "%s%s{%s,psent:%lu,psuccess:%lu,freeram:%u,rssi:%d}&node=%s&apikey=%s",
     emoncms_path.c_str(), e_url, data, packets_sent, packets_success, ESP.getFreeHeap(),
     WiFi.RSSI(), emoncms_node.c_str(), emoncms_apikey.c_str());
 

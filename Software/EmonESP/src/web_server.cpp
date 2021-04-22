@@ -717,7 +717,7 @@ void onWsEvent(AsyncWebSocket * server, AsyncWebSocketClient *client, AwsEventTy
     DBUGF("ws[%s][%u] connect", server->url(), client->id());
     client->ping();
   } else if(type == WS_EVT_DISCONNECT) {
-    DBUGF("ws[%s][%u] disconnect: %u", server->url(), client->id());
+    DBUGF("ws[%s][%u] disconnect: %u", server->url(), client->id(), *((uint16_t*)arg));
   } else if(type == WS_EVT_ERROR) {
     DBUGF("ws[%s][%u] error(%u): %s", server->url(), client->id(), *((uint16_t*)arg), (char*)data);
   } else if(type == WS_EVT_PONG) {

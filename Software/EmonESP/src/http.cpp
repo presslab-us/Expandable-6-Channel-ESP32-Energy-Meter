@@ -26,6 +26,7 @@
    Boston, MA 02111-1307, USA.
 */
 #include "emonesp.h"
+#include "esp_task_wdt.h"
 #include "http.h"
 
 WiFiClient client;                  // Create class for HTTP TCP connections get_http()
@@ -67,7 +68,7 @@ String get_http(const char * host, const char * url, int port, const char * fing
         return ("Client Timeout");
       }
 #ifdef ENABLE_WDT
-      feedLoopWDT();
+      esp_task_wdt_reset();
 #endif
     }
     // Handle message receive

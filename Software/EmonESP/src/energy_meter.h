@@ -26,7 +26,7 @@
 #ifndef _ENERGY_METER
 #define _ENERGY_METER
 
-#define NUM_BOARDS 7
+#define NUM_BOARDS 3
 #define NUM_INPUTS 6
 
 #define NUM_CHANNELS (NUM_BOARDS*NUM_INPUTS)

@@ -57,7 +57,7 @@ unsigned short voltage_cal = 0;
 unsigned short voltage2_cal = 0;
 unsigned short freq_cal = 0;
 unsigned short gain_cal[NUM_BOARDS] = { 0 };
-String ct_name[NUM_CHANNELS] = "";
+String ct_name[NUM_CHANNELS] = {""};
 unsigned short ct_cal[NUM_CHANNELS] = { 0 };
 float cur_mul[NUM_CHANNELS] = { 0.0 };
 float pow_mul[NUM_CHANNELS] = { 0.0 };
@@ -416,7 +416,7 @@ void config_save_mqtt(String server, String topic, String prefix, String user, S
 //for CircuitSetup 6 channel energy meter
 void config_save_cal(AsyncWebServerRequest * request)
 {
-  char req[12];
+  char req[20];
 
   EEPROM.begin(EEPROM_SIZE);
 
