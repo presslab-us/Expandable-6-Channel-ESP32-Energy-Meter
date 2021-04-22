@@ -87,7 +87,13 @@ void startAP() {
   digitalWrite(WIFI_LED, LOW);
 #endif
 
+#ifdef ENABLE_WDT
+  disableLoopWDT();
+#endif
   wifi_scan();
+#ifdef ENABLE_WDT
+  enableLoopWDT();
+#endif
   delay(100);
   WiFi.enableAP(true);
   delay(100);
@@ -138,7 +144,15 @@ void startClient() {
   WiFi.enableSTA(true);
   delay(100);
   WiFi.begin(esid.c_str(), epass.c_str());
-  WiFi.waitForConnectResult(); //yields until wifi connects or not
+
+  int i = 0;
+  while((!WiFi.status() || WiFi.status() >= WL_DISCONNECTED) && i++ < 100) {
+#ifdef ENABLE_WDT
+      feedLoopWDT();
+#endif
+      delay(100);
+  }
+
 #ifdef ESP32
   WiFi.setHostname(esp_hostname);
 #else
@@ -420,7 +434,7 @@ void wifi_loop()
   if (LOW == wifiButtonState && millis() > wifiButtonTimeOut + WIFI_BUTTON_FACTORY_RESET_TIMEOUT)
   {
     DBUGS.println("Factory reset");
-    delay(1000);
+    delay(100);
 
     config_reset();
 
@@ -458,7 +472,16 @@ void wifi_loop()
       }
       else {
         // wait 10 seconds and retry
-        delay(WIFI_CLIENT_DISCONNECT_RETRY);
+        int time = WIFI_CLIENT_DISCONNECT_RETRY;
+        while (time > 200)
+        {
+#ifdef ENABLE_WDT
+          feedLoopWDT();
+#endif
+          delay(200);
+          time -= 200;
+        }
+        delay(time);
         wifi_restart();
       }
 #ifdef ENABLE_WDT
